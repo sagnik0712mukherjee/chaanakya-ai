@@ -79,6 +79,25 @@ class ChaanakyaAgent:
         return "\n".join(context_lines)
 
     # -------------------------
+    # Helper function
+    # -------------------------
+
+    def _is_farewell(self, user_input: str) -> bool:
+        text = user_input.strip().lower()
+        return text in {
+            "bye",
+            "bye!",
+            "goodbye",
+            "thanks",
+            "thanks!",
+            "thank you",
+            "thank you!",
+            "ok thanks",
+            "ok thanks bye",
+            "ok thanks, bye",
+        }
+
+    # -------------------------
     # Public Interface
     # -------------------------
 
@@ -87,6 +106,15 @@ class ChaanakyaAgent:
         Executes the agent with planner-controlled tools
         and memory-aware prompting.
         """
+
+        # ✅ HARD STOP for farewell
+        if self._is_farewell(user_input):
+            farewell_response = (
+                "You're welcome 🙂 If you need legal help again, feel free to ask. Take care!"
+            )
+            self.history.append({"role": "user", "content": user_input})
+            self.history.append({"role": "assistant", "content": farewell_response})
+            return farewell_response
 
         # 1️⃣ Store user message
         self.history.append({"role": "user", "content": user_input})
