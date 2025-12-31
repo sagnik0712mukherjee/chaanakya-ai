@@ -1,0 +1,10 @@
+agno
+ollama
+duckduckgo-search
+wikipedia
+sentence-transformers
+faiss-cpu
+streamlit
+python-dotenv
+pydantic
+requests
